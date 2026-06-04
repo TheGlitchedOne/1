@@ -1,3 +1,42 @@
+document.addEventListener("DOMContentLoaded", () => {
+    always_get_Location()
+});
+//start
+    async function always_get_Location() {
+      while (true) {
+          const start_output = document.getElementById("start_output");
+
+          if (!navigator.geolocation) {
+            start_output.innerHTML = "Geolocation støttes ikke.";
+            return;
+          }
+
+          start_output.innerHTML = "Henter posisjon...";
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+        
+            start_output.innerHTML += `
+              <br><br>📍 <strong>Posisjon:</strong><br>
+              Breddegrad: ${lat}<br>
+              Lengdegrad: ${lon}<br>
+              <a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank">Åpne i Google Maps</a>
+            `;
+          },
+          (error) => {
+            start_output.innerHTML = "Feil: " + error.message;
+          }
+        );
+        await delay(1000); 
+        }
+    }
+
+
+
+
+
 //copy pase code
 function getLocation() {
       const output = document.getElementById("output");
