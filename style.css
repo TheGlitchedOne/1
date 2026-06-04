@@ -1,0 +1,78 @@
+
+
+
+
+
+/* 
+	body
+	background-image: url('image/background F3 .png');	
+	background-color:#00FFF7;
+ 
+    background: linear-gradient(to bottom, #00e5ff, #00279c, #000040); /* Gradient from dodger blue to royal blue to dark blue 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+
+p
+	3 background-color:#FFF300;
+	border:2px solid #000000;
+	font-size: 200%;
+	border:2px solid #000000;
+	color:#FF0000;
+	text-shadow: 1px 1px;
+	font-family: Papyrus
+	
+	
+	
+.test1
+ width: 1000px;
+  height: 75px;
+  background-color: #00217b;
+  animation-name: example;
+
+
+.test2
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  position: relative;
+  animation-name: example;
+  animation-duration: 4s;
+  animation-delay: 2s;
+	
+
+flex box
+
+.a-flex-container {
+  background-color: #f4f7f8;
+  resize: horizontal;
+  overflow: hidden;
+  display: flex;
+  margin: 1em;
+}
+
+.item {
+  margin: 1em;
+  padding: 0.5em;
+  width: 110px;
+  min-width: 0;
+  background-color: #1b5385;
+  color: white;
+  font-family: monospace;
+  font-size: 13px;
+  
+  /*maks the itmes centerd*//*
+  margin-left: auto;
+  margin-right: auto;
+}'
+
+.a-auto {
+  flex: auto;
+}
+
+
+@font-face {
+  font-family: "pixelFont";
+  src: url("image/font.ttf") format("truetype");
+}
+*/
