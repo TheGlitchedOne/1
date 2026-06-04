@@ -110,7 +110,7 @@ function vibratePhone() {
     }
 //AI
 function getOrientation() {//*Device Orientation
-  const output = document.getElementById("output");
+  const output = document.getElementById("Device_Orientation_button");
 
   // iOS requires explicit permission for device orientation
   if (typeof DeviceOrientationEvent.requestPermission === 'function') {
