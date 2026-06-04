@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-    always_get_Location()
+    start_loop()
 });
 //start
-    async function always_get_Location() {
+    async function start_loop() {
       while (true) {
           const start_output = document.getElementById("start_output");
 
@@ -29,9 +29,26 @@ document.addEventListener("DOMContentLoaded", () => {
             start_output.innerHTML = "Feil: " + error.message;
           }
         );
-        await delay(1000); 
-        }
-    }
+        await delay(500); 
+        const Orientation = document.getElementById("Device_Orientation");
+
+          // iOS requires explicit permission for device orientation
+          if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission()
+              .then(permissionState => {
+                if (permissionState === 'granted') {
+                  window.addEventListener('deviceorientation', handleOrientation);
+                } else {
+                  Orientation.innerHTML = "Gyroskop-tilgang ble avvist.";
+                }
+              });
+          } else {
+            // Android and desktops don't require explicit permission popups
+            window.addEventListener('deviceorientation', handleOrientation);
+          }
+        await delay(500); 
+        }//end of loop
+    }// end of function
 
 
 
