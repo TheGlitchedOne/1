@@ -1,4 +1,64 @@
+function getLocation() {
+      const output = document.getElementById("output");
 
+      if (!navigator.geolocation) {
+        output.innerHTML = "Geolocation støttes ikke.";
+        return;
+      }
+
+      output.innerHTML = "Henter posisjon...";
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+    
+        output.innerHTML += `
+          <br><br>📍 <strong>Posisjon:</strong><br>
+          Breddegrad: ${lat}<br>
+          Lengdegrad: ${lon}<br>
+          <a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank">Åpne i Google Maps</a>
+        `;
+      },
+      (error) => {
+        output.innerHTML = "Feil: " + error.message;
+      }
+    );
+    }
+
+function getBattery() {
+      const output = document.getElementById("output");
+
+      if (!navigator.getBattery) {
+        output.innerHTML += "<br>⚠️ Batteri-API støttes ikke.";
+        return;
+      }
+
+      navigator.getBattery().then((battery) => {
+        const level = Math.round(battery.level * 100);
+        const charging = battery.charging ? "Ja 🔌" : "Nei";
+
+        output.innerHTML += `
+          <br><br>🔋 <strong>Batteristatus:</strong><br>
+          Nivå: ${level}%<br>
+          Lader: ${charging}
+        `;
+      });
+    }
+
+function vibratePhone() {
+      const output = document.getElementById("output");
+
+      if (!navigator.vibrate) {
+        output.innerHTML += "<br>⚠️ Vibrasjon støttes ikke.";
+        return;
+      }
+
+      // Vibrasjonsmønster: vibrer – pause – vibrer
+      navigator.vibrate([200, 100, 200]);
+
+      output.innerHTML += "<br><br>📳 Telefon vibrerer!";
+    }
 
 
 //function nvan() { }
