@@ -1,54 +1,46 @@
-document.addEventListener("DOMContentLoaded", () => {
-    start_loop()
-});
 //start
-    async function start_loop() {
-      while (true) {
-          const start_output = document.getElementById("start_output");
+document.addEventListener("DOMContentLoaded", () => {
+    start_tracking();
+});
 
-          if (!navigator.geolocation) {
-            start_output.innerHTML = "Geolocation støttes ikke.";
-            return;
-          }
+function start_tracking() {
+    const start_output = document.getElementById("start_output");
+    const orientation_output = document.getElementById("Device_Orientation");
 
-          start_output.innerHTML = "Henter posisjon...";
-
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
+    // 1. AUTOMATIC GEOLOCATION TRACKING (No loop needed)
+    if (!navigator.geolocation) {
+        if (start_output) start_output.innerHTML = "Geolocation støttes ikke.";
+    } else {
+        if (start_output) start_output.innerHTML = "Henter posisjon...";
         
-            start_output.innerHTML += `
-              <br><br>📍 <strong>Posisjon:</strong><br>
-              Breddegrad: ${lat}<br>
-              Lengdegrad: ${lon}<br>
-              <a href="https://www.google.com/maps?q=${lat},${lon}" target="_blank">Åpne i Google Maps</a>
-            `;
-          },
-          (error) => {
-            start_output.innerHTML = "Feil: " + error.message;
-          }
-        );
-        await delay(500); 
-        const Orientation = document.getElementById("Device_Orientation");
-
-          // iOS requires explicit permission for device orientation
-          if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-            DeviceOrientationEvent.requestPermission()
-              .then(permissionState => {
-                if (permissionState === 'granted') {
-                  window.addEventListener('deviceorientation', handleOrientation);
-                } else {
-                  Orientation.innerHTML = "Gyroskop-tilgang ble avvist.";
+        navigator.geolocation.watchPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+            
+                if (start_output) {
+                    start_output.innerHTML = `
+                        📍 <strong>Live Posisjon:</strong><br>
+                        Breddegrad: ${lat}<br>
+                        Lengdegrad: ${lon}<br><br>
+                        <a href="https://maps.google.com/?q=${lat},${lon}" target="_blank">Åpne i Google Maps</a>
+                    `;
                 }
-              });
-          } else {
-            // Android and desktops don't require explicit permission popups
-            window.addEventListener('deviceorientation', handleOrientation);
-          }
-        await delay(500); 
-        }//end of loop
-    }// end of function
+            },
+            (error) => {
+                if (start_output) start_output.innerHTML = "Feil: " + error.message;
+            },
+            { enableHighAccuracy: true }
+        );
+    }
+
+    // 2. GYROSCOPE INITIALIZATION (Checks if it can run silently)
+    // Note: iOS will require clicking your manual "Hent Gyroskop" button, 
+    // but Android/Desktop will start tracking right here on load automatically!
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission !== 'function') {
+        window.addEventListener('deviceorientation', handleOrientation);
+    }
+}
 
 
 
