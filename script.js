@@ -1,3 +1,4 @@
+//copy pase code
 function getLocation() {
       const output = document.getElementById("output");
 
@@ -59,7 +60,73 @@ function vibratePhone() {
 
       output.innerHTML += "<br><br>📳 Telefon vibrerer!";
     }
+//AI
+function getOrientation() {//*Device Orientation
+  const output = document.getElementById("output");
 
+  // iOS requires explicit permission for device orientation
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission()
+      .then(permissionState => {
+        if (permissionState === 'granted') {
+          window.addEventListener('deviceorientation', handleOrientation);
+        } else {
+          output.innerHTML = "Gyroskop-tilgang ble avvist.";
+        }
+      });
+  } else {
+    // Android and desktops don't require explicit permission popups
+    window.addEventListener('deviceorientation', handleOrientation);
+  }
+}
+
+function handleOrientation(event) {//*Network Information
+  const output = document.getElementById("output");
+  const alpha = Math.round(event.alpha); // Rotation around z-axis (0-360)
+  const beta = Math.round(event.beta);   // Front-to-back tilt (-180 to 180)
+  const gamma = Math.round(event.gamma); // Left-to-right tilt (-90 to 90)
+
+  output.innerHTML = `
+    <br>🔄 <strong>Gyroskop data:</strong><br>
+    Kompassretning: ${alpha}°<br>
+    Tilt Forover/Bakover: ${beta}°<br>
+    Tilt Venstre/Høyre: ${gamma}°
+  `;
+}
+function checkNetwork() {//*Screen Orientation & Properties
+  const output = document.getElementById("output");
+  const isOnline = navigator.onLine ? "Ja, du er tilkoblet! 🌐" : "Nei, du er offline! ❌";
+
+  output.innerHTML = `<br>📶 <strong>Nettverksstatus:</strong> ${isOnline}`;
+}
+
+
+function getScreenInfo() {
+  const output = document.getElementById("output");
+  const width = window.screen.width;
+  const height = window.screen.height;
+  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+  const orientationType = isLandscape ? "Landskap (Vannrett) 📱" : "Portrett (Loddrett) 📱";
+
+  output.innerHTML = `
+    <br>🖥️ <strong>Skjerminfo:</strong><br>
+    Oppløsning: ${width} x ${height} piksler<br>
+    Retning: ${orientationType}
+  `;
+}
+
+function speakText() {//*Text-to-Speech AP
+  // Stop any speech that's currently running
+  window.speechSynthesis.cancel(); 
+
+  const speech = new SpeechSynthesisUtterance();
+  speech.text = "Hei! Mobilinfoen din ser veldig bra ut.";
+  speech.lang = "no-NO"; // Norwegian voice
+  speech.volume = 1;
+  speech.rate = 1;
+
+  window.speechSynthesis.speak(speech);
+}
 
 //function nvan() { }
 
