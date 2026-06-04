@@ -176,6 +176,74 @@ function speakText() {//*Text-to-Speech AP
   window.speechSynthesis.speak(speech);
 }
 
+function startLightSensor() {//*Device Light Level Sensor (Ambient Light API) ☀️
+  const output = document.getElementById("light_output");
+
+  if ('AmbientLightSensor' in window) {
+    try {
+      const sensor = new AmbientLightSensor();
+      sensor.onreading = () => {
+        output.innerHTML = `Lysnivå: ${sensor.illuminance} lux`;
+        // Automatically change background if it's dark!
+        if (sensor.illuminance < 20) {
+          document.body.style.backgroundColor = "black";
+          document.body.style.color = "white";
+        }
+      };
+      sensor.start();
+    } catch (err) {
+      output.innerHTML = "Feil med lyssensor: " + err.message;
+    }
+  } else {
+    // Fallback: Check if the phone's operating system is set to Dark Mode
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    output.innerHTML = prefersDark ? "Systemet ditt er i Mørk Modus 🌙" : "Systemet ditt er i Lys Modus ☀️";
+  }
+}
+
+function getKameraInfo() {//*Visual & Audio Hardware Check (Media Devices) 📸
+  const output = document.getElementById("media_output");
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+    output.innerHTML = "Mediaenheter støttes ikke.";
+    return;
+  }
+
+  navigator.mediaDevices.enumerateDevices()
+    .then((devices) => {
+      let videoCount = 0;
+      let audioCount = 0;
+
+      devices.forEach((device) => {
+        if (device.kind === 'videoinput') videoCount++;
+        if (device.kind === 'audioinput') audioCount++;
+      });
+
+      output.innerHTML = `
+        <br>🎥 <strong>Maskinvare funnet:</strong><br>
+        Antall kameraer: ${videoCount}<br>
+        Antall mikrofoner: ${audioCount}
+      `;
+    })
+    .catch((err) => {
+      output.innerHTML = "Kunne ikke hente info: " + err.message;
+    });
+}
+
+function shareApp() {//*Native Share Menu (Web Share API) 📤
+  if (navigator.share) {
+    navigator.share({
+      title: 'Min Mobilinfo App',
+      text: 'Sjekk ut denne kule nettsiden som henter live telefondata!',
+      url: window.location.href
+    })
+    .then(() => console.log('Vellykket deling!'))
+    .catch((error) => console.log('Deling avbrutt', error));
+  } else {
+    alert("Nativ deling støttes ikke på denne nettleseren.");
+  }
+}
+
 //function nvan() { }
 
 //  if (condition1) {   }

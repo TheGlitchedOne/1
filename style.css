@@ -2,7 +2,10 @@ body {
   background-color: aqua;
   color: rgb(0, 0, 26);
 }
-
+.work {
+  background-color: rgb(0, 183, 255);
+  border-color: black;
+}
 
 .red {
   background-color: red;

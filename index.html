@@ -15,18 +15,24 @@
 <body>
   <h1>Mobilinfo 📱</h1>
 
-  <button onclick="getLocation()">Hent posisjon</button>
-  <button onclick="getOrientation()">Start Gyroscope</button>
-  <button onclick="checkNetwork()">Sjekk Nettverk</button>
-  <button onclick="getScreenInfo()">Hent Skjerminfo</button>
-  <button onclick="speakText()">Snakk til meg</button>
+  <button class="work" onclick="getLocation()">Hent posisjon</button>
+  <button class="work" onclick="getOrientation()">Start Gyroscope</button>
+  <button class="work" onclick="checkNetwork()">Sjekk Nettverk</button>
+  <button class="work" onclick="getScreenInfo()">Hent Skjerminfo</button>
+  <button class="work" onclick="speakText()">Snakk til meg</button>
+  <button onclick="startLightSensor()">Sjekk Lysnivå</button>
+  <button onclick="getKameraInfo()">Sjekk Kameraer & Mikrofoner</button>
+  <button onclick="shareApp()">Del denne siden</button>
+
 
   <p>vriker ikke på iphone</p>
   <button class="red" onclick="getBattery()">Hent batteristatus</button>
   <button class="red" onclick="vibratePhone()">Vibrer 📳</button>
 
-  <div id="output"></div>
-  <div id="Device_Orientation_button"></div>
+  <div id="output"></div><br>
+  <div id="media_output"></div><br>
+  <div id="light_output"></div><br>
+  <div id="Device_Orientation_button"></div><br>
 <br>
 <br>
 <div id="start_output"></div>
